@@ -12,24 +12,32 @@ class _RestClient implements RestClient {
   _RestClient(
     this._dio, {
     this.baseUrl,
-  });
+  }) {
+    baseUrl ??= 'http://localhost:5000/';
+  }
 
   final Dio _dio;
 
   String? baseUrl;
 
   @override
-  Future<String> postFileToConvertInLatex(doc) async {
+  Future<String> postFileToConvertInLatex(
+    docBytes,
+    filename,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.files.add(MapEntry(
-      'doc',
-      MultipartFile.fromFileSync(
-        doc.path,
-        filename: doc.path.split(Platform.pathSeparator).last,
-      ),
+        'doc',
+        MultipartFile.fromBytes(
+          docBytes,
+          filename: null,
+        )));
+    _data.fields.add(MapEntry(
+      'filename',
+      filename,
     ));
     final _result = await _dio.fetch<String>(_setStreamType<String>(Options(
       method: 'POST',
@@ -39,7 +47,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          '/toLatex',
+          'toLatex/',
           queryParameters: queryParameters,
           data: _data,
         )

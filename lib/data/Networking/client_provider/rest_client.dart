@@ -13,7 +13,14 @@ abstract class RestClient {
 
 
   /// Underlying code is responsible for posting the files to server to get response in [String]
-  @POST("/toLatex")
+  // @POST("doc-to-latex/toLatex")
+  // @MultiPart()
+  // Future<String> postFileToConvertInLatex(@Part(name: "doc") File doc);
+
+  //@POST("doc-to-latex/toLatex")
+  @POST("toLatex/")
   @MultiPart()
-  Future<String> postFileToConvertInLatex(@Part(name: "doc") File doc);
+  Future<String> postFileToConvertInLatex(@Part(name: "doc") List<int> docBytes, @Part() String filename);
+
+
 }

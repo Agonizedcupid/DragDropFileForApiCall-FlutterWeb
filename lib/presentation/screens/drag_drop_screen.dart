@@ -1,19 +1,25 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../domain/view_models/file_post_notifier.dart';
 import '../resource/color/colors.dart';
 
-class DragDropScreen extends StatefulWidget {
+Uint8List? globalDroppedFile;
+String? globalFileName;
+
+class DragDropScreen extends ConsumerStatefulWidget {
   const DragDropScreen({Key? key}) : super(key: key);
 
   @override
-  State<DragDropScreen> createState() => _DragDropScreenState();
+  ConsumerState<DragDropScreen> createState() => _DragDropScreenState();
 }
 
-class _DragDropScreenState extends State<DragDropScreen> {
-
-
+class _DragDropScreenState extends ConsumerState<DragDropScreen> {
   late DropzoneViewController controller;
   bool isHighlighted = false;
   late String droppedFileName = "Release to drop the files";
@@ -25,7 +31,8 @@ class _DragDropScreenState extends State<DragDropScreen> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         decoration: BoxDecoration(
-          border: Border.all(color: isHighlighted ? mainColor : Colors.transparent, width: 1),
+          border: Border.all(
+              color: isHighlighted ? mainColor : Colors.transparent, width: 1),
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Card(
@@ -48,12 +55,20 @@ class _DragDropScreenState extends State<DragDropScreen> {
                           isHighlighted = false;
                         });
                       },
-                      onDrop: (ev) {
-                        print('Dropped file: ${ev.name}');
+                      onDrop: (ev) async {
+                        var data = await controller.getFileData(ev);
                         setState(() {
                           isHighlighted = true;
                           droppedFileName = "${ev.name} dropped";
+                          globalDroppedFile = data;
+                          globalFileName = ev.name;
                         });
+
+                        if (globalDroppedFile != null && globalFileName != null) {
+                          ref.read(filePostNotifierProvider(ContentParam(list: globalDroppedFile!, fileName: globalFileName!)));
+                        } else {
+                          // Handle the error or show a message to the user.
+                        }
                       },
                     ),
                     Center(
@@ -73,13 +88,6 @@ class _DragDropScreenState extends State<DragDropScreen> {
                   ],
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  // Convert logic
-                },
-                child: const Text("Convert"),
-              ),
-
               const SizedBox(height: 10,),
             ],
           ),
@@ -88,3 +96,4 @@ class _DragDropScreenState extends State<DragDropScreen> {
     );
   }
 }
+
