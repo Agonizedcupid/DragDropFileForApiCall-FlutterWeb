@@ -13,10 +13,6 @@ final postFileToConvertRepositoryProvider = Provider<PostFileToConvertRepository
   return PostFileToConvertRepositoryImpl(ref.watch(restProvider));
 });
 
-// abstract class PostFileToConvertRepository {
-//   Future<NetworkResponseHandler<String>> postFile(File docFile);
-// }
-
 abstract class PostFileToConvertRepository {
   Future<NetworkResponseHandler<String>> postFile(Uint8List docBytes, String filename);
 }

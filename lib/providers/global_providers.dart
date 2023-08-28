@@ -22,7 +22,8 @@ final dioInterceptorProvider = Provider<InterceptorsWrapper>(
 
 final dioProvider = Provider<Dio>((ref) {
   final Dio dio = Dio();
-  dio.interceptors.add(ref.read(dioInterceptorProvider));
+  dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+  //dio.interceptors.add(ref.read(dioInterceptorProvider));
   return dio;
 });
 
@@ -30,3 +31,15 @@ final restProvider = Provider<RestClient>((ref) {
   final dio = ref.watch(dioProvider);
   return RestClient(dio);
 });
+
+
+final convertedLatexProvider = StateNotifierProvider<LatexParserHandler, String>(
+        (ref) => LatexParserHandler());
+
+class LatexParserHandler extends StateNotifier<String> {
+  LatexParserHandler() : super("Preparing ... ");
+
+  void updateResponse({required String responseInString}) {
+    state = responseInString;
+  }
+}

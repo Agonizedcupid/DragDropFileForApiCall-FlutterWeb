@@ -13,7 +13,7 @@ class _RestClient implements RestClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://localhost:5000/';
+    baseUrl ??= 'https://app.utkorsho.org/api/';
   }
 
   final Dio _dio;
@@ -47,7 +47,7 @@ class _RestClient implements RestClient {
     )
         .compose(
           _dio.options,
-          'toLatex/',
+          'doc-to-latex/toLatex',
           queryParameters: queryParameters,
           data: _data,
         )

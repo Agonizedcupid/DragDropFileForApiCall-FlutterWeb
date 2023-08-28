@@ -18,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text("Doc to latex converter", style: TextStyle(color: Colors.white, fontSize: 16),),backgroundColor: mainColor,),
       body: const Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Drag and Drop Area
           Expanded(

@@ -1,6 +1,4 @@
 
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:doc_to_latex_parser_web/common/constant.dart';
 import 'package:retrofit/http.dart';
@@ -17,10 +15,8 @@ abstract class RestClient {
   // @MultiPart()
   // Future<String> postFileToConvertInLatex(@Part(name: "doc") File doc);
 
-  //@POST("doc-to-latex/toLatex")
-  @POST("toLatex/")
+  @POST("doc-to-latex/toLatex")
+  //@POST("toLatex/")
   @MultiPart()
   Future<String> postFileToConvertInLatex(@Part(name: "doc") List<int> docBytes, @Part() String filename);
-
-
 }

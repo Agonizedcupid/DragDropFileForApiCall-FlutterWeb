@@ -42,6 +42,8 @@ dependencies:
   dio: ^5.1.2
   retrofit: '>=4.0.0 <5.0.0'
   logger: any  #for logging purpose
+  http: ^1.1.0
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +78,9 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+
+  assets:
+    - lib/test.docx
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
