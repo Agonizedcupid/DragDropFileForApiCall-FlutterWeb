@@ -1,5 +1,6 @@
 import 'package:doc_to_latex_parser_web/presentation/resource/color/colors.dart';
 import 'package:doc_to_latex_parser_web/presentation/screens/drag_drop_screen.dart';
+import 'package:doc_to_latex_parser_web/presentation/screens/latex_to_normal_text.dart';
 import 'package:doc_to_latex_parser_web/presentation/screens/response_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -22,14 +23,19 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Drag and Drop Area
           Expanded(
-            flex: 2, // Taking 2 parts of available space
+            flex: 1, // Taking 2 parts of available space
             child: DragDropScreen(),
           ),
           // Response Area
           Expanded(
-            flex: 5,  // Taking 5 parts of available space
+            flex: 4,  // Taking 5 parts of available space
             child: ResponseScreen(),
           ),
+          Expanded(
+            flex: 4,  // Taking 5 parts of available space
+            child: LatexToNormalTex(),
+          ),
+
         ],
       ),
     );
